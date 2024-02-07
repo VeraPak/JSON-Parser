@@ -15,11 +15,11 @@ public class JSONParse {
         String str;
         StringBuilder sb = new StringBuilder();
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             while ((str = reader.readLine()) != null) {
                 sb.append(str);
             }
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             ex.getStackTrace();
         }
         return sb.toString();
@@ -30,7 +30,7 @@ public class JSONParse {
 
         JSONParser parser = new JSONParser();
 
-        try{
+        try {
             JSONArray jsonArray = (JSONArray) parser.parse(json);
 
             GsonBuilder builder = new GsonBuilder();

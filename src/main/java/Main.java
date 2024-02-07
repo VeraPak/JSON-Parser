@@ -30,14 +30,14 @@ public class Main {
         for (Employee employee : list) {
             System.out.println(employee);
         }
-
     }
 
     private static String listToJson(List<Employee> list) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
-        Type listType = new TypeToken<List<Employee>>() {}.getType();
+        Type listType = new TypeToken<List<Employee>>() {
+        }.getType();
         return gson.toJson(list, listType);
     }
 

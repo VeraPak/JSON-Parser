@@ -34,12 +34,17 @@ public class XMLParser {
                 Element element = (Element) node;
 
                 String idText = element.getElementsByTagName("id").item(0).getTextContent();
-                long id = Long.parseLong(idText);
+                long id = 0;
+                if(!idText.isEmpty()) {
+                    id = Long.parseLong(idText);
+                }
                 String firstName = element.getElementsByTagName("firstName").item(0).getTextContent();
                 String lastName = element.getElementsByTagName("lastName").item(0).getTextContent();
                 String country = element.getElementsByTagName("country").item(0).getTextContent();
-                int age = Integer.parseInt(element.getElementsByTagName("age").item(0).getTextContent());
-
+                int age = 0;
+                if(!idText.isEmpty()) {
+                    age = Integer.parseInt(element.getElementsByTagName("age").item(0).getTextContent());
+                }
                 Employee employee = new Employee(id, firstName, lastName, country, age);
                 list.add(employee);
             }
