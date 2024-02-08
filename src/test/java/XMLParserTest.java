@@ -1,72 +1,33 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class XMLParserTest {
-    static List<Employee> employees;
+    static String path;
 
     @BeforeAll
     static public void beforeAll() {
-        employees = XMLParser.parseXML("/Users/vera/IdeaProjects/Misc/JSON-Parser/src/test/data.xml");
+        path = "/Users/vera/IdeaProjects/Misc/JSON-Parser/src/test/Files/dataPossitiveTest.xml";
     }
 
     @Test
-    void testIsNotEmptyCSV(){
-        assertNotNull(employees);
-        assertFalse(employees.isEmpty());
-    }
+    void parseXMLTest() {
+        List<Employee> employees = XMLParser.parseXML(path);
+        assertThat(employees, notNullValue());
+        assertThat(employees, not(empty()));
 
-    static List<Employee> forPossitiveTest() {
-        List<Employee> forPossitiveTest = new ArrayList<>();
-        forPossitiveTest.add(employees.get(0));
-        forPossitiveTest.add(employees.get(1));
-        return forPossitiveTest;
-    }
+        for (Employee employee : employees) {
+            assertThat(employee, notNullValue());
+            assertThat(employee, instanceOf(Employee.class));
 
-    @ParameterizedTest
-    @MethodSource({"forPossitiveTest"})
-    void testPossitiveArgumentsOfObjCSV(Employee employee){
-        assertNotNull(employee);
-        assertEquals(employee.getClass(), Employee.class);
-
-        assertTrue(employee.getId() != 0);
-        assertNotNull(employee.getFirstName());
-        assertNotNull(employee.getLastName());
-        assertNotNull(employee.getCountry());
-        assertTrue(employee.getAge() >= 18);
-    }
-
-    @Test
-    void emptyDataInEmployee(){
-        Employee emptyDataInEmployee = employees.get(2);
-
-        assertNotNull(emptyDataInEmployee);
-        assertEquals(emptyDataInEmployee.getClass(), Employee.class);
-
-        assertTrue(emptyDataInEmployee.getId() == 0);
-        assertEquals("", emptyDataInEmployee.getFirstName());
-        assertEquals("", emptyDataInEmployee.getLastName());
-        assertEquals("", emptyDataInEmployee.getCountry());
-        assertTrue(emptyDataInEmployee.getAge() == 0);
-    }
-
-    @Test
-    void incorrectDataInEmployee(){
-        Employee incorrectDataInEmployee = employees.get(3);
-
-        assertNotNull(incorrectDataInEmployee);
-        assertEquals(incorrectDataInEmployee.getClass(), Employee.class);
-
-        assertTrue(incorrectDataInEmployee.getId() != 0);
-        assertNotNull(incorrectDataInEmployee.getFirstName());
-        assertEquals("", incorrectDataInEmployee.getLastName());
-        assertNotNull(incorrectDataInEmployee.getCountry());
-        assertTrue(incorrectDataInEmployee.getAge() < 18);
+            assertThat(employee.getId(), greaterThan(0L));
+            assertThat(employee.getFirstName(), matchesPattern("[A-Z][a-z]*"));
+            assertThat(employee.getLastName(), matchesPattern("[A-Z][a-z]*"));
+            assertThat(employee.getCountry(), matchesPattern("[A-Z]+"));
+            assertThat(employee.getAge(), allOf(greaterThan(18), lessThanOrEqualTo(110)));
+        }
     }
 }

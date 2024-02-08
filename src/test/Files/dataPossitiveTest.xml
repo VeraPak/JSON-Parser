@@ -13,18 +13,4 @@
         <country>RU</country>
         <age>23</age>
     </employee>
-    <employee>
-        <id></id>
-        <firstName></firstName>
-        <lastName></lastName>
-        <country></country>
-        <age></age>
-    </employee>
-    <employee>
-        <id>4</id>
-        <firstName>John</firstName>
-        <lastName></lastName>
-        <country>EN</country>
-        <age>17</age>
-    </employee>
 </staff>

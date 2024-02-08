@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JSONParseTest {
@@ -40,7 +42,7 @@ class JSONParseTest {
         List<Employee> result = JSONParse.jsonToList(json);
 
         for (Employee employee : result) {
-            assertEquals(employee.getClass(), Employee.class);
+            assertThat(employee, instanceOf(Employee.class));
         }
     }
 }

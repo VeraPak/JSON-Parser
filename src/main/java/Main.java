@@ -19,7 +19,7 @@ public class Main {
         writeString(json1, "data.json");
 
         // (2)XMLParser
-        List<Employee> listXML = XMLParser.parseXML("data.xml");
+        List<Employee> listXML = XMLParser.parseXML("dataNegativeTest.xml");
         String json2 = listToJson(listXML);
         writeString(json2, "data2.json");
 
