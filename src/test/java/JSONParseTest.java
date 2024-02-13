@@ -9,40 +9,32 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JSONParseTest {
-
-    static File fileForTestJson;
+    static String path;
+    static Employee employee1;
+    static Employee employee2;
 
     @BeforeAll
     static public void beforeAll(){
-        fileForTestJson = new File("/Users/vera/IdeaProjects/Misc/JSON-Parser/src/test/test.json");
-        try {
-            fileForTestJson.createNewFile();
-            Files.copy(new File("data.json").toPath(), fileForTestJson.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        path = "src/test/resources/dataTest.json";
+        employee1 = new Employee(1, "John", "Smith", "USA", 25);
+        employee2 = new Employee(2, "Inav", "Petrov", "RU", 23);
     }
-
-    @AfterAll
-    static public void afterAll() {
-        fileForTestJson.delete();
-    }
-
 
     @Test
     void jsonToList() {
+        List<Employee> expected = List.of(employee1, employee2);
 
-        String json = JSONParse.readString(fileForTestJson.getAbsolutePath());
+        String json = JSONParse.readString(path);
+        List<Employee> employees = JSONParse.jsonToList(json);
 
-        List<Employee> result = JSONParse.jsonToList(json);
-
-        for (Employee employee : result) {
-            assertThat(employee, instanceOf(Employee.class));
-        }
+        assertThat(employees, notNullValue());
+        assertThat(employees, not(empty()));
+        assertThat(employees, everyItem(instanceOf(Employee.class)));
+        assertThat(employees, equalTo(expected));
     }
 }
